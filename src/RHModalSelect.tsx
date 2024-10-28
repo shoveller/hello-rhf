@@ -2,14 +2,14 @@ import { ReactNode, useState } from 'react';
 import { Modal, List, Select } from 'antd';
 import { Controller, FieldPath, FieldValues, useFormContext } from 'react-hook-form';
 
-type ModalSelectType<FormType extends FieldValues> = {
+type RHModalSelectType<FormType extends FieldValues> = {
     name: FieldPath<FormType>
     placeholder?: string
     title?: string
     dataSource?: ReactNode[]
 }
 
-function ModalSelect<FormType extends FieldValues>({ name, placeholder, title, dataSource }: ModalSelectType<FormType>) {
+function RHModalSelect<FormType extends FieldValues>({ name, placeholder, title, dataSource }: RHModalSelectType<FormType>) {
     const { control } = useFormContext<FormType>();
     const [show, setShow] = useState(false);
 
@@ -54,4 +54,4 @@ function ModalSelect<FormType extends FieldValues>({ name, placeholder, title, d
     );
 }
 
-export default ModalSelect;
+export default RHModalSelect;

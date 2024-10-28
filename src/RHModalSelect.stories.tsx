@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import ModalSelect from './ModalSelect';
+import RHModalSelect from './RHModalSelect';
 import { action } from '@storybook/addon-actions';
 import RHReset from './RHReset';
 import RHForm from './RHForm';
@@ -10,8 +10,8 @@ const schema = z.object({
 })
 
 const meta = {
-  component: ModalSelect,
-} satisfies Meta<typeof ModalSelect>;
+  component: RHModalSelect,
+} satisfies Meta<typeof RHModalSelect>;
 
 export default meta;
 
