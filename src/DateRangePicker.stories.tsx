@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import DateRangePicker from './DateRangePicker';
 import { action } from '@storybook/addon-actions';
-import dayjs from 'dayjs';
 
 const meta = {
   component: DateRangePicker,
