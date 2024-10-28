@@ -1,63 +1,57 @@
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { Modal, List, Select } from 'antd';
+import { Controller, FieldPath, FieldValues, useFormContext } from 'react-hook-form';
 
-const ModalSelect = () => {
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<string | null>(null);
+type ModalSelectType<FormType extends FieldValues> = {
+    name: FieldPath<FormType>
+    placeholder?: string
+    title?: string
+    dataSource?: ReactNode[]
+}
 
-  // 예시 데이터
-  const data = Array.from({ length: 20 }, (_, i) => `Item ${i + 1}`);
+function ModalSelect<FormType extends FieldValues>({ name, placeholder, title, dataSource }: ModalSelectType<FormType>) {
+    const { control } = useFormContext<FormType>();
+    const [show, setShow] = useState(false);
 
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
-
-  const handleOk = () => {
-    setIsModalVisible(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
-
-  const onItemSelect = (item: string) => {
-    setSelectedItem(item);
-  };
-
-  return (
-    <>
-      <Select
-        value={selectedItem}
-        onClick={showModal}
-        style={{ width: 200 }}
-        open={false}
-        placeholder="Select item"
-      />
-      <Modal
-        title="Selectable List"
-        open={isModalVisible}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        width={600}
-      >
-        <List
-          style={{ height: 300, overflow: 'auto' }}
-          dataSource={data}
-          renderItem={(item) => (
-            <List.Item
-              onClick={() => onItemSelect(item)}
-              style={{ 
-                cursor: 'pointer',
-                backgroundColor: selectedItem === item ? '#f0f0f0' : 'transparent'
-              }}
-            >
-              {item}
-            </List.Item>
-          )}
-        />
-      </Modal>
-    </>
-  );
-};
+    return (
+        <Controller control={control} name={name} render={({ field: { onChange, onBlur, value, ref } }) => {
+            return (
+                <>
+                    <Select
+                        value={value}
+                        onClick={() => setShow(true)}
+                        style={{ width: 200 }}
+                        open={false}
+                        placeholder={placeholder} 
+                    />
+                    <Modal
+                        title={title}
+                        open={show}
+                        onOk={() => setShow(false)}
+                        onCancel={() => setShow(false)}
+                        width={600}
+                    >
+                        <List
+                            style={{ height: 300, overflow: 'auto' }}
+                            dataSource={dataSource}
+                            renderItem={(item) => (
+                                <List.Item
+                                    onClick={() => onChange(item)}
+                                    onBlur={onBlur}
+                                    ref={ref}
+                                    style={{
+                                        cursor: 'pointer',
+                                        backgroundColor: value === item ? '#f0f0f0' : 'transparent'
+                                    }}
+                                >
+                                    {item}
+                                </List.Item>
+                            )} />
+                    </Modal>
+            </>
+            )
+        }} />
+    );
+}
 
 export default ModalSelect;
