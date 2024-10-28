@@ -23,7 +23,7 @@ export const 기본표시: Story = {
     },
     decorators: [(Story) => {
         return (
-            <RHForm schema={schema} defaultValues={{ test: '' }} onError={action('onError')} onSubmit={action('onSubmit')}>
+            <RHForm showDevtool schema={schema} defaultValues={{ test: '' }} onError={action('onError')} onSubmit={action('onSubmit')}>
                 <Story />
                 <RHReset>리셋</RHReset>
                 <button type="submit">서브밋</button>
