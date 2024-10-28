@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { Modal, List, Checkbox, Button } from 'antd';
+import { useState } from 'react';
+import { Modal, List, Select } from 'antd';
 
 const ModalSelect = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [selectedItems, setSelectedItems] = useState([]);
+  const [selectedItem, setSelectedItem] = useState<string | null>(null);
 
   // 예시 데이터
   const data = Array.from({ length: 20 }, (_, i) => `Item ${i + 1}`);
@@ -20,22 +20,22 @@ const ModalSelect = () => {
     setIsModalVisible(false);
   };
 
-  const onItemSelect = (item) => {
-    setSelectedItems(prev => 
-      prev.includes(item) ? prev.filter(i => i !== item) : [...prev, item]
-    );
+  const onItemSelect = (item: string) => {
+    setSelectedItem(item);
   };
 
   return (
     <>
-      <Button onClick={showModal}>
-        {selectedItems.length > 0 
-          ? `Selected: ${selectedItems.join(', ')}` 
-          : 'Open Modal'}
-      </Button>
+      <Select
+        value={selectedItem}
+        onClick={showModal}
+        style={{ width: 200 }}
+        open={false}
+        placeholder="Select item"
+      />
       <Modal
         title="Selectable List"
-        visible={isModalVisible}
+        open={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
         width={600}
@@ -44,13 +44,14 @@ const ModalSelect = () => {
           style={{ height: 300, overflow: 'auto' }}
           dataSource={data}
           renderItem={(item) => (
-            <List.Item>
-              <Checkbox
-                onChange={() => onItemSelect(item)}
-                checked={selectedItems.includes(item)}
-              >
-                {item}
-              </Checkbox>
+            <List.Item
+              onClick={() => onItemSelect(item)}
+              style={{ 
+                cursor: 'pointer',
+                backgroundColor: selectedItem === item ? '#f0f0f0' : 'transparent'
+              }}
+            >
+              {item}
             </List.Item>
           )}
         />
