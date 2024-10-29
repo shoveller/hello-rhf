@@ -14,7 +14,7 @@ function RHModalSelect<FormType extends FieldValues>({ name, placeholder, title,
     const [show, setShow] = useState(false);
 
     return (
-        <Controller name={name} render={({ field: { onChange, onBlur, value, ref }, formState: { errors } }) => {
+        <Controller name={name} render={({ field: { onChange, onBlur, value, ref, disabled }, formState: { errors } }) => {
             return (
                 <>
                     <Select
@@ -22,7 +22,8 @@ function RHModalSelect<FormType extends FieldValues>({ name, placeholder, title,
                         onClick={() => setShow(true)}
                         style={{ width: 200 }}
                         open={false}
-                        placeholder={placeholder} 
+                        placeholder={placeholder}
+                        disabled={disabled} 
                     />
                     <ErrorMessage errors={errors} name={name as never} />
                     <Modal

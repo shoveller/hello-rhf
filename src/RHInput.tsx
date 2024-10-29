@@ -12,10 +12,10 @@ function RHInput<FormType extends FieldValues>({ name, placeholder }: RHInputTyp
     <>
       <Controller
           name={name}
-          render={({ field: { onChange, onBlur, value, ref }, formState: { errors } }) => {
+          render={({ field: { onChange, onBlur, value, ref, disabled }, formState: { errors } }) => {
             return (
               <>
-                <Input placeholder={placeholder} allowClear onBlur={onBlur} value={value} ref={ref} onChange={onChange} />
+                <Input placeholder={placeholder} allowClear onBlur={onBlur} disabled={disabled} value={value} ref={ref} onChange={onChange} />
                 <ErrorMessage errors={errors} name={name as never} />
               </>
             );
