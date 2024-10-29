@@ -1,6 +1,7 @@
 import { ReactNode, useState } from 'react';
 import { Modal, List, Select } from 'antd';
-import { Controller, FieldPath, FieldValues, useFormContext } from 'react-hook-form';
+import { Controller, FieldPath, FieldValues } from 'react-hook-form';
+import { ErrorMessage } from '@hookform/error-message';
 
 type RHModalSelectType<FormType extends FieldValues> = {
     name: FieldPath<FormType>
@@ -10,11 +11,10 @@ type RHModalSelectType<FormType extends FieldValues> = {
 }
 
 function RHModalSelect<FormType extends FieldValues>({ name, placeholder, title, dataSource }: RHModalSelectType<FormType>) {
-    const { control } = useFormContext<FormType>();
     const [show, setShow] = useState(false);
 
     return (
-        <Controller control={control} name={name} render={({ field: { onChange, onBlur, value, ref } }) => {
+        <Controller name={name} render={({ field: { onChange, onBlur, value, ref }, formState: { errors } }) => {
             return (
                 <>
                     <Select
@@ -24,6 +24,7 @@ function RHModalSelect<FormType extends FieldValues>({ name, placeholder, title,
                         open={false}
                         placeholder={placeholder} 
                     />
+                    <ErrorMessage errors={errors} name={name as never} />
                     <Modal
                         title={title}
                         open={show}
